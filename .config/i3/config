@@ -94,8 +94,8 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1 FireFox "
-set $ws2 "2 Terminal "
+set $ws1 "1"
+set $ws2 "2"
 set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
@@ -192,9 +192,16 @@ hide_edge_borders both
 
 new_window normal 0
 new_float normal 0
+#for i3-gaps
+for_window [class="^.*"] border pixel 2.5
+gaps inner 10
+gaps outer 5
+smart_gaps on
+smart_borders on
 
-gaps inner 15
-gaps outer 20
+#Borders
+client.focused #5e5e5e #5e5e5e #ffffff #2e9ef4 #285577
+new_window 1pixel
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
@@ -229,6 +236,5 @@ exec_always feh --bg-scale /home/ps/Downloads/1.jpg
 # exec_always firefox
 # exec_always urxvt
 exec_always compton -f
-
 
 exec_always --no-startup-id ~/.config/i3/polybarstart.sh &

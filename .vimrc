@@ -1,5 +1,3 @@
-
-
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -8,9 +6,6 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
-
-
-
 
     Plugin 'altercation/vim-colors-solarized'
     Plugin 'ap/vim-css-color'
@@ -54,7 +49,6 @@ Plugin 'tpope/vim-fugitive'
 " Git plugin not hosted on GitHub
 Plugin 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (i.e. when working on your own plugin)
-Plugin 'file:///home/gmarik/path/to/plugin'
 " The sparkup vim script is in a subdirectory of this repo called vim.
 " Pass the path to set the runtimepath properly.
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
@@ -224,31 +218,11 @@ set winminheight=0             " Allow windows to be squashed.
 " (this is required by Vundle).
 
 filetype off
-
 " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-" Include Vundle in the runtime path.
-
-
-
-" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-" Initialize Vundle and specify the path
-" where the plugins should be installed.
-
-
-
-
-
-
-
-" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 " Re-enable file type detection
 " (disabling it was required by Vundle).
 
 filetype on
-
 
 " ----------------------------------------------------------------------
 " | Plugins - Emmet                                                    |
@@ -282,8 +256,6 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven
         \ guibg=#073642
         \ ctermbg=DarkMagenta
-
-
 " ----------------------------------------------------------------------
 " | Plugins - Instant Markdown                                         |
 " ----------------------------------------------------------------------
