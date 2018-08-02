@@ -7,6 +7,11 @@ call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
+" let Vundle manage Vundle, required
+    Plugin 'VundleVim/Vundle.vim'
+    Plugin 'joegesualdo/jsdoc.vim'
+    Plugin 'octol/vim-cpp-enhanced-highlight'
+    Plugin 'artur-shaik/vim-javacomplete2'
     Plugin 'altercation/vim-colors-solarized'
     Plugin 'ap/vim-css-color'
     Plugin 'chrisbra/unicode.vim'
@@ -37,21 +42,19 @@ call vundle#begin()
     Plugin 'tpope/vim-unimpaired'
     Plugin 'wellle/targets.vim'
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
+    Plugin 'tpope/vim-fugitive'
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
 " Git plugin not hosted on GitHub
-Plugin 'git://git.wincent.com/command-t.git'
+    Plugin 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (i.e. when working on your own plugin)
+    Plugin 'file:///home/gmarik/path/to/plugin'
 " The sparkup vim script is in a subdirectory of this repo called vim.
 " Pass the path to set the runtimepath properly.
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+    Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 " Install L9 and avoid a Naming conflict if you've already installed a
 " different version somewhere else.
 " Plugin 'ascenator/L9', {'name': 'newL9'}
@@ -71,6 +74,45 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
+" Specify a directory for plugins
+" - For Neovim: ~/.local/share/nvim/plugged
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+
+" Make sure you use single quotes
+
+" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+    Plug 'junegunn/vim-easy-align'
+
+" Any valid git URL is allowed
+    Plug 'https://github.com/junegunn/vim-github-dashboard.git'
+
+" Multiple Plug commands can be written in a single line using | separators
+    Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+
+" On-demand loading
+    Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+    Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+
+" Using a non-master branch
+    Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+
+" Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
+    Plug 'fatih/vim-go', { 'tag': '*' }
+
+" Plugin options
+    Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
+
+" Plugin outside ~/.vim/plugged with post-update hook
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
+" Unmanaged plugin (manually installed and updated)
+    Plug '~/my-prototype-plugin'
+
+    Plug 'maralla/completor.vim'
+
+" Initialize plugin system
+call plug#end()
 
 
 set runtimepath+=~/.vim_runtime
@@ -84,8 +126,6 @@ try
 source ~/.vim_runtime/my_configs.vim
 catch
 endtry
-
-
 
 " ----------------------------------------------------------------------
 " | General Settings                                                   |
@@ -205,24 +245,13 @@ set wildmenu                   " Enable enhanced command-line
 set winminheight=0             " Allow windows to be squashed.
 
 
-" ----------------------------------------------------------------------
-" | Plugins                                                            |
-" ----------------------------------------------------------------------
 
-" Use Vundle to manage the Vim plugins.
-" https://github.com/VundleVim/Vundle.vim
+set runtimepath+=~/.vim/plugins/Vundle.vim
 
 " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-" Disable file type detection
-" (this is required by Vundle).
 
-filetype off
-" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-" Re-enable file type detection
-" (disabling it was required by Vundle).
 
-filetype on
 
 " ----------------------------------------------------------------------
 " | Plugins - Emmet                                                    |
@@ -238,6 +267,7 @@ let g:user_emmet_leader_key="<C-E>"
 " Load custom Emmet snippets.
 " http://docs.emmet.io/customization/snippets/
 
+let g:user_emmet_settings = webapi#json#decode(join(readfile(expand("~/.vim/snippets/emmet.json")), "\n"))
 
 
 " ----------------------------------------------------------------------
@@ -256,6 +286,8 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven
         \ guibg=#073642
         \ ctermbg=DarkMagenta
+
+
 " ----------------------------------------------------------------------
 " | Plugins - Instant Markdown                                         |
 " ----------------------------------------------------------------------
@@ -327,7 +359,6 @@ let g:syntastic_mode_map = {
     \ "mode": "passive",
     \ "passive_filetypes": []
 \}
-
 
 " ----------------------------------------------------------------------
 " | Helper Functions                                                   |
@@ -403,7 +434,6 @@ function! ToggleRelativeLineNumbers()
     endif
 
 endfunction
-
 
 " ----------------------------------------------------------------------
 " | Automatic Commands                                                 |
@@ -490,7 +520,6 @@ if has("autocmd")
 
 endif
 
-
 " ----------------------------------------------------------------------
 " | Color Scheme                                                       |
 " ----------------------------------------------------------------------
@@ -513,7 +542,6 @@ if !has("gui_running")
 endif
 
 colorscheme solarized          " Use custom color scheme.
-
 
 " ----------------------------------------------------------------------
 " | Key Mappings                                                       |
@@ -670,21 +698,64 @@ set statusline+=/
 set statusline+=%L             " Total number of lines
 set statusline+=\ (%P)\        " Percent through file
 
-" Example result:
+"_________________________________________________________________________________"
+"________________________________Java complete____________________________________"
+"_________________________________________________________________________________"
 "
-"  [1] [master] [vim/vimrc][vim][unix:utf-8]            17,238/381 (59%)
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
 
-" ----------------------------------------------------------------------
-" | Local Settings                                                     |
-" ----------------------------------------------------------------------
+  nmap <F4> <Plug>(JavaComplete-Imports-AddSmart)
+  imap <F4> <Plug>(JavaComplete-Imports-AddSmart)
 
-" Load local settings if they exist.
-"
-" [!] The following needs to remain at the end of this file in
-"     order to allow any of the above settings to be overwritten
-"     by the local ones.
+  nmap <F5> <Plug>(JavaComplete-Imports-Add)
+  imap <F5> <Plug>(JavaComplete-Imports-Add)
 
-if filereadable(glob("~/.vimrc.local"))
-    source ~/.vimrc.local
-endif
+  nmap <F6> <Plug>(JavaComplete-Imports-AddMissing)
+  imap <F6> <Plug>(JavaComplete-Imports-AddMissing)
+
+  nmap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
+  imap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
+
+  nmap <leader>jI <Plug>(JavaComplete-Imports-AddMissing)
+  nmap <leader>jR <Plug>(JavaComplete-Imports-RemoveUnused)
+  nmap <leader>ji <Plug>(JavaComplete-Imports-AddSmart)
+  nmap <leader>jii <Plug>(JavaComplete-Imports-Add)
+
+  imap <C-j>I <Plug>(JavaComplete-Imports-AddMissing)
+  imap <C-j>R <Plug>(JavaComplete-Imports-RemoveUnused)
+  imap <C-j>i <Plug>(JavaComplete-Imports-AddSmart)
+  imap <C-j>ii <Plug>(JavaComplete-Imports-Add)
+
+  nmap <leader>jM <Plug>(JavaComplete-Generate-AbstractMethods)
+
+  imap <C-j>jM <Plug>(JavaComplete-Generate-AbstractMethods)
+
+  nmap <leader>jA <Plug>(JavaComplete-Generate-Accessors)
+  nmap <leader>js <Plug>(JavaComplete-Generate-AccessorSetter)
+  nmap <leader>jg <Plug>(JavaComplete-Generate-AccessorGetter)
+  nmap <leader>ja <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+  nmap <leader>jts <Plug>(JavaComplete-Generate-ToString)
+  nmap <leader>jeq <Plug>(JavaComplete-Generate-EqualsAndHashCode)
+  nmap <leader>jc <Plug>(JavaComplete-Generate-Constructor)
+  nmap <leader>jcc <Plug>(JavaComplete-Generate-DefaultConstructor)
+
+  imap <C-j>s <Plug>(JavaComplete-Generate-AccessorSetter)
+  imap <C-j>g <Plug>(JavaComplete-Generate-AccessorGetter)
+  imap <C-j>a <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+
+  vmap <leader>js <Plug>(JavaComplete-Generate-AccessorSetter)
+  vmap <leader>jg <Plug>(JavaComplete-Generate-AccessorGetter)
+  vmap <leader>ja <Plug>(JavaComplete-Generate-AccessorSetterGetter)
+
+  nmap <silent> <buffer> <leader>jn <Plug>(JavaComplete-Generate-NewClass)
+  nmap <silent> <buffer> <leader>jN <Plug>(JavaComplete-Generate-ClassInFile)
+
+  let g:JavaComplete_MavenRepositoryDisable = 1
+  let g:JavaComplete_UseFQN = 1
+  let g:JavaComplete_ClosingBrace = 1
+  let g:JavaComplete_JavaviDebug = 1
+  let g:JavaComplete_StaticImportsAtTop = 1
+  let g:JavaComplete_CompletionResultSort = 1
+  let g:neocomplete#enable_at_startup = 1
+
