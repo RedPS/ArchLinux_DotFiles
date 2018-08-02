@@ -41,8 +41,12 @@ call vundle#begin()
     Plugin 'tpope/vim-surround'
     Plugin 'tpope/vim-unimpaired'
     Plugin 'wellle/targets.vim'
+    Plugin 'groenewege/vim-less'
+    Plugin 'mileszs/ack.vim'
+    Plugin 'itchyny/lightline.vim'
 
-" The following are examples of different formats supported.
+
+    " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
     Plugin 'tpope/vim-fugitive'
@@ -50,8 +54,6 @@ call vundle#begin()
 " Plugin 'L9'
 " Git plugin not hosted on GitHub
     Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-    Plugin 'file:///home/gmarik/path/to/plugin'
 " The sparkup vim script is in a subdirectory of this repo called vim.
 " Pass the path to set the runtimepath properly.
     Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
@@ -113,19 +115,6 @@ call plug#begin('~/.vim/plugged')
 
 " Initialize plugin system
 call plug#end()
-
-
-set runtimepath+=~/.vim_runtime
-
-source ~/.vim_runtime/vimrcs/basic.vim
-source ~/.vim_runtime/vimrcs/filetypes.vim
-source ~/.vim_runtime/vimrcs/plugins_config.vim
-source ~/.vim_runtime/vimrcs/extended.vim
-
-try
-source ~/.vim_runtime/my_configs.vim
-catch
-endtry
 
 " ----------------------------------------------------------------------
 " | General Settings                                                   |
