@@ -111,7 +111,7 @@ call plug#begin('~/.vim/plugged')
 " Unmanaged plugin (manually installed and updated)
     Plug '~/my-prototype-plugin'
 
-    Plug 'maralla/completor.vim'
+   " Plug 'maralla/completor.vim'
 
 " Initialize plugin system
 call plug#end()
