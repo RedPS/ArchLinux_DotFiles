@@ -219,7 +219,7 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86TouchpadToggle exec /home/ps/.config/i3/toggletouchpad.sh # toggle touchpad
 
 # Changing the wallpaper
-exec_always feh --bg-scale /home/ps/Downloads/1.jpg
+exec_always feh --bg-scale /home/ps/Downloads/LockAndBG/1.jpg
 # exec_always firefox
 # exec_always urxvt
 exec_always compton -f
@@ -227,9 +227,11 @@ exec_always compton -f
 exec_always --no-startup-id ~/.config/i3/polybarstart.sh &
 
 # set desktop background with custom effect
-exec --no-startup-id betterlockscreen -w dim
+#exec --no-startup-id betterlockscreen -w dim
 
 # Alternative (set last used background)
-exec --no-startup-id source ~/.fehbg
+#exec --no-startup-id source ~/.fehbg
 
 bindsym $mod+shift+x exec betterlockscreen -l dim
+
+
